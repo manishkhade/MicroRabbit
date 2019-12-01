@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MicroRabbit.Banking.Application.Interfaces;
+using MicroRabbit.Banking.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroRabbit.Banking.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class BankingController : ControllerBase
     {
+        private readonly IAccountService accountService;
+        public BankingController(IAccountService accountService )
+        {
+            this.accountService = accountService;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Account>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(this.accountService.GetAccounts());
         }
 
         // GET api/values/5
